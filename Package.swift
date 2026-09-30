@@ -5,9 +5,13 @@ let package = Package(
     name: "Lab",
     platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
-        .library(name: "Lab", targets: ["Lab"])
+        .library(name: "LabCore", targets: ["LabCore"]),
+        .library(name: "LabUI", targets: ["LabUI"]),
     ],
     targets: [
-        .target(name: "Lab", path: "Sources")
+        // Foundation-only domain logic; no SwiftUI so it also builds on Linux.
+        .target(name: "LabCore", path: "Sources/LabCore"),
+        .target(name: "LabUI", dependencies: ["LabCore"], path: "Sources/LabUI"),
+        .testTarget(name: "LabCoreTests", dependencies: ["LabCore"], path: "Tests/LabCoreTests"),
     ]
 )
